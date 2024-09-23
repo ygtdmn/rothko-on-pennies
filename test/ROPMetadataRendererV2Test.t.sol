@@ -3,25 +3,19 @@ pragma solidity >=0.8.25;
 
 import { Test } from "forge-std/src/Test.sol";
 import { ROPMetadataRendererV2 } from "../src/ROPMetadataRendererV2.sol";
-import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import { console2 } from "forge-std/src/console2.sol";
 import { RothkoOnPennies } from "../src/RothkoOnPennies.sol";
 
-contract MockERC721 is ERC721 {
-    address public collector;
-
-    constructor(address _collector) ERC721("MockERC721", "MCK") {
-        collector = _collector;
-    }
-
-    function ownerOf(uint256) public view override returns (address) {
-        return collector;
+contract MockERC1155 is ERC1155 {
+    constructor(address _collector) ERC1155("uri") {
+        _mint(_collector, 1, 1, "");
     }
 }
 
 contract ROPMetadataRendererV2Test is Test {
     ROPMetadataRendererV2 public renderer;
-    MockERC721 public mockROP;
+    MockERC1155 public mockROP;
     address public collector;
     address public owner;
     uint40[981] public initialBalances;
@@ -31,7 +25,7 @@ contract ROPMetadataRendererV2Test is Test {
     function setUp() public {
         collector = address(0x1);
         owner = address(this);
-        mockROP = new MockERC721(collector);
+        mockROP = new MockERC1155(collector);
 
         // Base64 encoded SVG string for the end of the metadata
         endString =
@@ -40,7 +34,7 @@ contract ROPMetadataRendererV2Test is Test {
         uint256 numAddresses = (bytes(endString).length + 4) / 5;
 
         // Read addresses from a JSON file
-        string memory addressesJson = vm.readFile("script/addresses.json");
+        string memory addressesJson = vm.readFile("script/addresses-mainnet.json");
         address[] memory addressArray = vm.parseJsonAddressArray(addressesJson, "");
 
         // Parse the endString to extract initial balances
@@ -118,8 +112,9 @@ contract ROPMetadataRendererV2Test is Test {
         assertEq(renderer.initialBalances(980), 1_960_000);
     }
 
-    function testGetCollector() public view {
-        assertEq(renderer.getCollector(), collector);
+    function testIsCollector() public {
+        vm.prank(collector);
+        assertTrue(renderer.isCollector());
     }
 
     function testTakeSnapshot() public {

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.25;
 
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import { IERC1155 } from "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import { LibString } from "solady/utils/LibString.sol";
 
 /// @title ROPMetadataRendererV2
@@ -55,7 +55,7 @@ contract ROPMetadataRendererV2 is Ownable {
     address[981] public addresses;
 
     /// @notice Address of the RothkoOnPennies contract
-    IERC721 public immutable rothkoOnPennies;
+    IERC1155 public immutable rothkoOnPennies;
 
     /// @notice Index of the current live snapshot
     uint256 public liveSnapshotIndex;
@@ -66,7 +66,7 @@ contract ROPMetadataRendererV2 is Ownable {
     /// @notice Constructor to initialize the contract with the RothkoOnPennies contract address
     /// @param _rothkoOnPennies Address of the RothkoOnPennies contract
     constructor(address _rothkoOnPennies, address[] memory partialAddresses) Ownable() {
-        rothkoOnPennies = IERC721(_rothkoOnPennies);
+        rothkoOnPennies = IERC1155(_rothkoOnPennies);
         uint256 partialAddressesLength = partialAddresses.length;
         for (uint256 i = 0; i < partialAddressesLength; i++) {
             addresses[i] = partialAddresses[i];
@@ -108,21 +108,21 @@ contract ROPMetadataRendererV2 is Ownable {
         initialBalances = _initialBalances;
     }
 
-    /// @notice Get the address of the current collector
-    /// @return Address of the current collector (owner of token ID 1)
-    function getCollector() public view returns (address) {
-        return rothkoOnPennies.ownerOf(1);
+    /// @notice Check if the sender is a collector
+    /// @return True if the sender is a collector, false otherwise
+    function isCollector() public view returns (bool) {
+        return rothkoOnPennies.balanceOf(msg.sender, 1) > 0;
     }
 
     /// @notice Modifier to restrict function access to only the collector
     modifier onlyCollector() {
-        if (msg.sender != getCollector()) revert NotCollector();
+        if (!isCollector()) revert NotCollector();
         _;
     }
 
     /// @notice Modifier to restrict function access to either the collector or the contract owner
     modifier onlyCollectorOrOwner() {
-        if (msg.sender != getCollector() && msg.sender != owner()) revert NotCollector();
+        if (!isCollector() && msg.sender != owner()) revert NotCollector();
         _;
     }
 

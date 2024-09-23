@@ -49,7 +49,7 @@ contract DeployMetadataRendererV2 is BaseScript {
 
         /// @notice Read addresses from a JSON file
         /// @dev Uses Foundry's vm.readFile and vm.parseJsonAddressArray functions
-        string memory addressesJson = vm.readFile("script/addresses.json");
+        string memory addressesJson = vm.readFile("script/addresses-mainnet.json");
         address[] memory addressArray = vm.parseJsonAddressArray(addressesJson, "");
 
         /// @notice Fixed-size array to store addresses

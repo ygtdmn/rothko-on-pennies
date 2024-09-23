@@ -42,7 +42,7 @@ contract ROPMetadataRendererV2DeployTest is Test {
         }
         // Split the address array into two halves
         // Read addresses from a JSON file
-        string memory addressesJson = vm.readFile("script/addresses.json");
+        string memory addressesJson = vm.readFile("script/addresses-mainnet.json");
         address[] memory addressArray = vm.parseJsonAddressArray(addressesJson, "");
         address[981] memory addresses;
         for (uint256 i = 0; i < 981; i++) {
