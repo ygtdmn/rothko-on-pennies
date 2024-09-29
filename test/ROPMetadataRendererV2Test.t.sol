@@ -79,6 +79,27 @@ contract ROPMetadataRendererV2Test is Test {
         renderer = new ROPMetadataRendererV2(address(mockROP), firstArray);
         renderer.initializeRemainingAddresses(secondArray, 750);
         renderer.initializeBalances(initialBalances);
+
+        // Initialize Original Artwork snapshot
+        uint256[] memory balanceChanges = new uint256[](0);
+        uint256[] memory balanceChangeIndexes = new uint256[](0);
+        renderer.createCustomSnapshot(1_726_370_267, balanceChanges, balanceChangeIndexes);
+
+        // Initialize Takens Theorem snapshot
+        balanceChanges = new uint256[](1);
+        balanceChanges[0] = 256;
+        balanceChangeIndexes = new uint256[](1);
+        balanceChangeIndexes[0] = 838;
+        renderer.createCustomSnapshot(1_726_612_919, balanceChanges, balanceChangeIndexes);
+
+        // Initialize Bushi snapshot
+        balanceChanges = new uint256[](2);
+        balanceChanges[0] = 1;
+        balanceChanges[1] = 256;
+        balanceChangeIndexes = new uint256[](2);
+        balanceChangeIndexes[0] = 490;
+        balanceChangeIndexes[1] = 838;
+        renderer.createCustomSnapshot(1_726_678_547, balanceChanges, balanceChangeIndexes);
     }
 
     function testConstructor() public view {
@@ -289,17 +310,47 @@ contract ROPMetadataRendererV2Test is Test {
     }
 
     function testInitialSnapshots() public view {
-        uint256[] memory balances = renderer.getSnapshotBalances(0);
+        assertEq(renderer.snapshotIndex(), 3);
+
+        // Check Original Artwork snapshot
         uint256 timestamp = renderer.snapshots(0);
+        uint256[] memory balances = renderer.getSnapshotBalances(0);
+        assertEq(timestamp, 1_726_370_267);
+        assertEq(balances.length, 981);
+
+        // Check Takens Theorem snapshot
+        timestamp = renderer.snapshots(1);
+        balances = renderer.getSnapshotBalances(1);
         assertEq(timestamp, 1_726_612_919);
-        assertEq(balances.length, initialBalances.length);
-        for (uint256 i = 0; i < balances.length; i++) {
-            if (i == 838) {
-                assertEq(balances[i], initialBalances[i] + 256);
-            } else {
-                assertEq(balances[i], initialBalances[i]);
-            }
-        }
+        assertEq(balances[838], initialBalances[838] + 256);
+
+        // Check Bushi snapshot
+        timestamp = renderer.snapshots(2);
+        balances = renderer.getSnapshotBalances(2);
+        assertEq(timestamp, 1_726_678_547);
+        assertEq(balances[490], initialBalances[490] + 1);
+        assertEq(balances[838], initialBalances[838] + 256);
+    }
+
+    function testCreateCustomSnapshot() public {
+        uint256 snapshotIndexBefore = renderer.snapshotIndex();
+        uint256[] memory balanceChanges = new uint256[](2);
+        balanceChanges[0] = 100;
+        balanceChanges[1] = 200;
+        uint256[] memory balanceChangeIndexes = new uint256[](2);
+        balanceChangeIndexes[0] = 0;
+        balanceChangeIndexes[1] = 1;
+
+        vm.prank(owner);
+        renderer.createCustomSnapshot(block.timestamp, balanceChanges, balanceChangeIndexes);
+
+        assertEq(renderer.snapshotIndex(), snapshotIndexBefore + 1);
+
+        uint256 timestamp = renderer.snapshots(snapshotIndexBefore);
+        assertEq(timestamp, block.timestamp);
+        uint256[] memory balances = renderer.getSnapshotBalances(snapshotIndexBefore);
+        assertEq(balances[0], initialBalances[0] + 100);
+        assertEq(balances[1], initialBalances[1] + 200);
     }
 
     function testTakeSnapshotAddsNewSnapshot() public {
@@ -354,23 +405,6 @@ contract ROPMetadataRendererV2Test is Test {
         uint256 actualDeficit = renderer.getDeficitBalanceFromTheInitialSnapshot();
 
         assertEq(actualDeficit, expectedDeficit, "Deficit balance calculation is incorrect");
-    }
-
-    function testCreateCustomSnapshot() public {
-        uint256[] memory balanceChanges = new uint256[](2);
-        balanceChanges[0] = 100;
-        balanceChanges[1] = 200;
-        uint256[] memory balanceChangeIndexes = new uint256[](2);
-        balanceChangeIndexes[0] = 0;
-        balanceChangeIndexes[1] = 1;
-
-        vm.prank(owner);
-        renderer.createCustomSnapshot(block.timestamp, balanceChanges, balanceChangeIndexes);
-
-        uint256[] memory snapshotBalances = renderer.getSnapshotBalances(renderer.snapshotIndex() - 1);
-        assertEq(snapshotBalances[0], initialBalances[0] + 100);
-        assertEq(snapshotBalances[1], initialBalances[1] + 200);
-        assertEq(renderer.snapshots(renderer.snapshotIndex() - 1), block.timestamp);
     }
 
     function testCreateCustomSnapshotMismatchedArrays() public {

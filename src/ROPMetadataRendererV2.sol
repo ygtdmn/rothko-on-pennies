@@ -86,12 +86,6 @@ contract ROPMetadataRendererV2 is Ownable {
     /// @param _initialBalances Array of initial balances for the addresses
     function initializeBalances(uint40[981] memory _initialBalances) public onlyOwner {
         initialBalances = _initialBalances;
-        // Initialize Takens Theorem snapshot
-        uint256[] memory balanceChanges = new uint256[](1);
-        balanceChanges[0] = 256;
-        uint256[] memory balanceChangeIndexes = new uint256[](1);
-        balanceChangeIndexes[0] = 838;
-        createCustomSnapshot(1_726_612_919, balanceChanges, balanceChangeIndexes);
     }
 
     /// @notice Set new addresses
@@ -111,7 +105,14 @@ contract ROPMetadataRendererV2 is Ownable {
     /// @notice Check if the sender is a collector
     /// @return True if the sender is a collector, false otherwise
     function isCollector() public view returns (bool) {
-        return rothkoOnPennies.balanceOf(msg.sender, 1) > 0;
+        return isCollector(msg.sender);
+    }
+
+    /// @notice Check if the address is a collector
+    /// @param addr Address to check
+    /// @return True if the address is a collector, false otherwise
+    function isCollector(address addr) public view returns (bool) {
+        return rothkoOnPennies.balanceOf(addr, 1) > 0;
     }
 
     /// @notice Modifier to restrict function access to only the collector
@@ -149,7 +150,7 @@ contract ROPMetadataRendererV2 is Ownable {
     /// @dev Cannot delete snapshots at index 0 (initial snapshot)
     function deleteSnapshot(uint256 snapshotIndex_) public onlyOwner {
         if (snapshotIndex_ >= snapshotIndex) revert SnapshotIndexOutOfBounds();
-        if (snapshotIndex_ < 1) revert CannotDeleteInitialSnapshots();
+        if (snapshotIndex_ < 3) revert CannotDeleteInitialSnapshots();
         delete snapshots[snapshotIndex_];
         emit SnapshotDeleted(snapshotIndex_);
     }
@@ -218,6 +219,17 @@ contract ROPMetadataRendererV2 is Ownable {
         if (snapshots[snapshotIndex_].snapshotTimestamp == 0) revert SnapshotNotTaken();
 
         uint256[] memory balances = getSnapshotBalances(snapshotIndex_);
+
+        return renderMetadataFromBalances(balances);
+    }
+
+    /// @notice Render metadata from the initial snapshot
+    /// @return Concatenated string of encoded initial balances
+    function renderInitialMetadata() public view returns (string memory) {
+        uint256[] memory balances = new uint256[](981);
+        for (uint256 i = 0; i < 981; i++) {
+            balances[i] = initialBalances[i];
+        }
 
         return renderMetadataFromBalances(balances);
     }

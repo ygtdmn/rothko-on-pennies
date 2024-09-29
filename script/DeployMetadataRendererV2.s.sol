@@ -49,7 +49,7 @@ contract DeployMetadataRendererV2 is BaseScript {
 
         /// @notice Read addresses from a JSON file
         /// @dev Uses Foundry's vm.readFile and vm.parseJsonAddressArray functions
-        string memory addressesJson = vm.readFile("script/addresses-mainnet.json");
+        string memory addressesJson = vm.readFile("script/addresses-sepolia.json");
         address[] memory addressArray = vm.parseJsonAddressArray(addressesJson, "");
 
         /// @notice Fixed-size array to store addresses
@@ -61,8 +61,8 @@ contract DeployMetadataRendererV2 is BaseScript {
 
         /// @notice Set up contract addresses
         /// @dev Hardcoded addresses for existing contracts
-        address ephemeraContractAddress = address(0xCb337152b6181683010D07e3f00e7508cd348BC7);
-        RothkoOnPennies rothkoOnPennies = RothkoOnPennies(0xBb38316A829DbC0559280598DBd8593801fA8471);
+        address ephemeraContractAddress = address(0xBF6b69aF9a0f707A9004E85D2ce371Ceb665237B);
+        RothkoOnPennies rothkoOnPennies = RothkoOnPennies(0xe4519998fe1dCe6e3C2B0EF454743A3C900d1c36);
 
         /// @notice Create two arrays, first with 750 addresses, second with 231 addresses
         /// @dev Split the addresses to initialize the metadata renderer in two steps
@@ -82,6 +82,27 @@ contract DeployMetadataRendererV2 is BaseScript {
         ROPMetadataRendererV2 metadataRendererV2 = new ROPMetadataRendererV2(ephemeraContractAddress, firstArray);
         metadataRendererV2.initializeRemainingAddresses(secondArray, 750);
         metadataRendererV2.initializeBalances(initialBalances);
+
+        // Initialize Original Artwork snapshot
+        uint256[] memory balanceChanges = new uint256[](0);
+        uint256[] memory balanceChangeIndexes = new uint256[](0);
+        metadataRendererV2.createCustomSnapshot(1_726_370_267, balanceChanges, balanceChangeIndexes);
+
+        // Initialize Takens Theorem snapshot
+        balanceChanges = new uint256[](1);
+        balanceChanges[0] = 256;
+        balanceChangeIndexes = new uint256[](1);
+        balanceChangeIndexes[0] = 838;
+        metadataRendererV2.createCustomSnapshot(1_726_612_919, balanceChanges, balanceChangeIndexes);
+
+        // Initialize Bushi snapshot
+        balanceChanges = new uint256[](2);
+        balanceChanges[0] = 1;
+        balanceChanges[1] = 256;
+        balanceChangeIndexes = new uint256[](2);
+        balanceChangeIndexes[0] = 490;
+        balanceChangeIndexes[1] = 838;
+        metadataRendererV2.createCustomSnapshot(1_726_678_547, balanceChanges, balanceChangeIndexes);
 
         /// @notice Update the RothkoOnPennies contract with the new metadata renderer address
         rothkoOnPennies.setMetadataRenderer(address(metadataRendererV2));
