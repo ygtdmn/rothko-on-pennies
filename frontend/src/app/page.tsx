@@ -5,7 +5,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "@rainbow-me/rainbowkit/styles.css";
 import React, { useEffect, useState, useCallback } from "react";
 import { ConnectButton, darkTheme, getDefaultConfig, RainbowKitProvider, Theme } from "@rainbow-me/rainbowkit";
-import { mainnet, sepolia } from "wagmi/chains";
+import { sepolia } from "wagmi/chains";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import merge from "lodash.merge";
@@ -222,7 +222,9 @@ const RothkoGallery = () => {
                 </button>
               </div>
             </div>
-            <div className="hidden md:block">
+            <div className="block">
+              {" "}
+              {/* Remove 'hidden md:block' */}
               {snapshotData && snapshotData.live ? (
                 <>
                   <div className="relative w-full" style={{ paddingBottom: "132.94%" }}>
@@ -254,18 +256,18 @@ const RothkoGallery = () => {
         </div>
       </header>
 
-      <nav className="bg-black py-4 px-8 sticky top-0 z-10 border-b border-gray-900">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex space-x-6">
-            <a href="#overview" className="text-gray-400 hover:text-white">
+      <nav className="bg-black py-4 px-6 sm:px-8 sticky top-0 z-10 border-b border-gray-900">
+        <div className="max-w-6xl mx-auto flex justify-between items-center h-full">
+          <div className="flex space-x-6 items-center">
+            <a href="#overview" className="text-gray-400 hover:text-white flex items-center h-full">
               Overview
             </a>
-            <a href="#gallery" className="text-gray-400 hover:text-white">
+            <a href="#gallery" className="text-gray-400 hover:text-white flex items-center h-full">
               Snapshot Gallery
             </a>
           </div>
           <div className="flex items-center space-x-4">
-            <ConnectButton label="Collector Mode" />
+            <ConnectButton label="Collector Zone" />
           </div>
         </div>
       </nav>

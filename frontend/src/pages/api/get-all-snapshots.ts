@@ -1,5 +1,5 @@
 import { createPublicClient, Hex, http } from "viem";
-import { mainnet, sepolia } from "viem/chains";
+import { sepolia } from "viem/chains";
 import { metadataRendererV2Abi } from "../../app/metadata-renderer-v2.abi";
 import NodeCache from "node-cache";
 
