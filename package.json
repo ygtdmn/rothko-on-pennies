@@ -10,6 +10,7 @@
     "@manifoldxyz/creator-core-solidity": "^3.0.0",
     "@openzeppelin/contracts": "^4.8.1",
     "@openzeppelin/contracts-upgradeable": "^4.8.1",
+    "@prb/math": "PaulRBerg/prb-math",
     "solady": "^0.0.238"
   },
   "devDependencies": {
