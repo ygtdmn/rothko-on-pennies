@@ -5,7 +5,7 @@ import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import "@rainbow-me/rainbowkit/styles.css";
 import React, { useEffect, useState, useCallback } from "react";
 import { ConnectButton, darkTheme, getDefaultConfig, RainbowKitProvider, Theme } from "@rainbow-me/rainbowkit";
-import { sepolia } from "wagmi/chains";
+import { mainnet } from "wagmi/chains";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import merge from "lodash.merge";
@@ -28,9 +28,9 @@ const customDarkTheme = merge(darkTheme(), {
 const config = getDefaultConfig({
   appName: "Rothko on Pennies",
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
-  chains: [sepolia],
+  chains: [mainnet],
   transports: {
-    [sepolia.id]: http(process.env.NEXT_PUBLIC_RPC_URL as string),
+    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_URL as string),
   },
   ssr: false,
 });

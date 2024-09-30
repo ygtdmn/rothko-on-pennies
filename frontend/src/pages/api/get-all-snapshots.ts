@@ -1,10 +1,10 @@
 import { createPublicClient, Hex, http } from "viem";
-import { sepolia } from "viem/chains";
+import { mainnet } from "viem/chains";
 import { metadataRendererV2Abi } from "../../app/metadata-renderer-v2.abi";
 import NodeCache from "node-cache";
 
 const publicClient = createPublicClient({
-  chain: sepolia,
+  chain: mainnet,
   transport: http(process.env.RPC_URL as string),
 });
 
