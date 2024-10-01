@@ -46,7 +46,7 @@ creates a deficit balance which is used by the `VandalizedValueRenderer` to rend
 - ROPMetadataRendererV2:
   [0x7a9c12551e50C307c2D3EA5FFEBFb5240C660d53](https://etherscan.io/address/0x7a9c12551e50C307c2D3EA5FFEBFb5240C660d53)
 - VandalizedValue:
-  [0x85b6aac900AE881C6052D62924b1ac5E0698Fe25](https://etherscan.io/address/0x85b6aac900AE881C6052D62924b1ac5E0698Fe25)
+  [0xc0156ace24C5DDB0b9a7E552dfdcc48A5B11B9F9](https://etherscan.io/address/0xc0156ace24C5DDB0b9a7E552dfdcc48A5B11B9F9)
 - VandalizedValueRenderer
   [0xfE347966B763Ebb345847d38f484A48ecD189Cc4](https://etherscan.io/address/0xfE347966B763Ebb345847d38f484A48ecD189Cc4)
 - Vandalizor
@@ -61,7 +61,7 @@ creates a deficit balance which is used by the `VandalizedValueRenderer` to rend
 - ROPMetadataRendererV2:
   [0xE1FD97c2cb31d0CB5784a7FcC09336671210B03C](https://sepolia.etherscan.io/address/0xE1FD97c2cb31d0CB5784a7FcC09336671210B03C)
 - VandalizedValue:
-  [0x1cF00d4f1D102a260Ef98c9C6c2AfBd1Ea2A37E4](https://sepolia.etherscan.io/address/0x1cF00d4f1D102a260Ef98c9C6c2AfBd1Ea2A37E4)
+  [0xd18296FeeE158b564630499a77f4892bb910E163](https://sepolia.etherscan.io/address/0xd18296FeeE158b564630499a77f4892bb910E163)
 - VandalizedValueRenderer
   [0x641BD4923d48e5E4c907637403820FBf0A4c645a](https://sepolia.etherscan.io/address/0x641BD4923d48e5E4c907637403820FBf0A4c645a)
 - Vandalizor

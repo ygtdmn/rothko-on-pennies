@@ -29,6 +29,9 @@ contract VandalizedValue is ICreatorExtensionTokenURI, IERC1155CreatorExtensionA
     /// @notice Metadata string to be included in the token URI
     string public metadata;
 
+    bool public isTokenMinted = false;
+    uint256 public tokenId = 2;
+
     /// @notice Constructor to initialize the contract
     /// @param _metadataRendererV2 Address of the ROPMetadataRendererV2 contract
     /// @param _renderer Address of the VandalizedValueRenderer contract
@@ -82,13 +85,22 @@ contract VandalizedValue is ICreatorExtensionTokenURI, IERC1155CreatorExtensionA
     /// @param to Addresses to mint the token to
     /// @dev Only callable by the contract owner
     function mint(address creatorContractAddress, address[] calldata to) external onlyOwner {
-        string[] memory uris = new string[](to.length);
+        string[] memory uris = new string[](0);
         uint256[] memory quantities = new uint256[](to.length);
         for (uint256 i = 0; i < to.length; i++) {
             quantities[i] = 1;
         }
 
-        IERC1155CreatorCore(creatorContractAddress).mintExtensionNew(to, quantities, uris);
+        if (!isTokenMinted) {
+            isTokenMinted = true;
+            tokenId = IERC1155CreatorCore(creatorContractAddress).mintExtensionNew(to, quantities, uris)[0];
+        } else {
+            uint256[] memory tokenIds = new uint256[](to.length);
+            for (uint256 i = 0; i < to.length; i++) {
+                tokenIds[i] = tokenId;
+            }
+            IERC1155CreatorCore(creatorContractAddress).mintExtensionExisting(to, tokenIds, quantities);
+        }
     }
 
     /// @notice Check if the contract supports a given interface
