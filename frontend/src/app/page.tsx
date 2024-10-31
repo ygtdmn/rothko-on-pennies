@@ -297,12 +297,12 @@ const RothkoGallery = () => {
                 </div>
                 <div className="mt-8">
                   <a
-                    href="https://x.com/YigitDuman/status/1835290645423866215"
+                    href="https://medium.com/etherscan-blog/creating-destroying-and-restoring-on-chain-artwork-d6f1d031a2d5"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-white text-neutral-800 px-6 py-3 rounded hover:bg-gray-200 transition-colors inline-block"
+                    className="text-white underline hover:text-gray-300 transition-colors"
                   >
-                    Read More on Twitter/X
+                    Read More on Takens Theorem&apos;s Etherscan Blog Article
                   </a>
                 </div>
               </div>
