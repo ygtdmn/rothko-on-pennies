@@ -16,7 +16,7 @@
     "lodash": "^4.17.21",
     "lodash.merge": "^4.6.2",
     "lucide-react": "^0.446.0",
-    "next": "15.5.10",
+    "next": "15.5.18",
     "next-themes": "^0.3.0",
     "node-cache": "^5.1.2",
     "pino": "^9.4.0",
