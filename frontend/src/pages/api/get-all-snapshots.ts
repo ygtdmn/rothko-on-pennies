@@ -1,11 +1,12 @@
-import { createPublicClient, Hex, http } from "viem";
+import { createPublicClient, Hex } from "viem";
 import { mainnet } from "viem/chains";
 import { metadataRendererV2Abi } from "../../app/metadata-renderer-v2.abi";
 import NodeCache from "node-cache";
+import { mainnetTransport } from "../../lib/mainnet-transport";
 
 const publicClient = createPublicClient({
   chain: mainnet,
-  transport: http(process.env.RPC_URL as string),
+  transport: mainnetTransport,
 });
 
 // Contract configuration

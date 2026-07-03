@@ -11,9 +11,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import merge from "lodash.merge";
 import { Montserrat } from "next/font/google";
 import Image from "next/image";
-import { Hex, http } from "viem";
+import { Hex } from "viem";
 import ropSvg from "../app/images/rop.svg";
 import { metadataRendererV2Abi } from "./metadata-renderer-v2.abi";
+import { mainnetTransport } from "../lib/mainnet-transport";
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 const queryClient = new QueryClient();
@@ -30,7 +31,7 @@ const config = getDefaultConfig({
   projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string,
   chains: [mainnet],
   transports: {
-    [mainnet.id]: http(process.env.NEXT_PUBLIC_RPC_URL as string),
+    [mainnet.id]: mainnetTransport,
   },
   ssr: false,
 });
