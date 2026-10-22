@@ -55,6 +55,11 @@ interface SnapshotData {
   snapshots: Snapshot[];
 }
 
+const getSnapshotName = (snapshot: Snapshot) => {
+  if (snapshot.name) return snapshot.name;
+  return `Snapshot ${snapshot.id + 1}`;
+};
+
 const RothkoGallery = () => {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const [loading, setLoading] = useState(false);
@@ -161,11 +166,6 @@ const RothkoGallery = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const getSnapshotName = (snapshot: Snapshot) => {
-    if (snapshot.name) return snapshot.name;
-    return `Snapshot ${snapshot.id + 1}`;
-  };
 
   const SnapshotCard = ({ snapshot, onClick }: { snapshot: Snapshot; onClick: (snapshot: Snapshot) => void }) => (
     <motion.div
