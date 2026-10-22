@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.25;
 
+// Expected-output fixtures below are single long base64 lines.
+// solhint-disable max-line-length
+
 import { Test } from "forge-std/src/Test.sol";
 import { ROPMetadataRendererV2 } from "../src/ROPMetadataRendererV2.sol";
 import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";

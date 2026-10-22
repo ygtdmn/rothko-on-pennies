@@ -21,7 +21,8 @@ decentralized and permanent representation of the artwork on the Ethereum blockc
   - `ROPMetadataRendererV2`: An updated version with additional features like balance snapshots.
   - `ROPBalanceHolder`: Individual contracts holding parts of the encoded image data in their ETH balances.
   - `VandalizedValue`: A Manifold extension that mints soulbound "Vandalized Value" token.
-  - `VandalizedValueRenderer`: Renders a generative Rothko inspired artwork that gets more glitchy as the vandalized value increases.
+  - `VandalizedValueRenderer`: Renders a generative Rothko inspired artwork that gets more glitchy as the vandalized
+    value increases.
   - `Vandalizor`: Contract that allows users to "vandalize" the artwork by sending ETH to specific addresses.
 
 ## Viewing the Artwork
