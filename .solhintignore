@@ -1,0 +1,4 @@
+# Deployed contracts and the scripts that deployed them (with the artwork data
+# embedded) must stay exactly as they are, so they're not linted.
+src/
+script/

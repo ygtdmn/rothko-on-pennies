@@ -28,7 +28,7 @@ contract VandalizedValueTest is Test {
     }
 
     function testRenderSvg3() external view {
-        console2.log(renderer.renderSvg(0.0011439804651136 ether, true));
+        console2.log(renderer.renderSvg(0.001_143_980_465_113_6 ether, true));
     }
 
     function testRenderSvg4() external view {
@@ -36,10 +36,10 @@ contract VandalizedValueTest is Test {
     }
 
     function testRenderSvg5() external view {
-        console2.log(renderer.renderSvg(0.0000139804651136 ether, true));
+        console2.log(renderer.renderSvg(0.000_013_980_465_113_6 ether, true));
     }
 
     function testRenderSvg6() external view {
-        console2.log(renderer.renderSvg(0.00000839804651136 ether, true));
+        console2.log(renderer.renderSvg(0.000_008_398_046_511_36 ether, true));
     }
 }

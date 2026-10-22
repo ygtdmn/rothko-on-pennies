@@ -1,10 +1,13 @@
 # Rothko on Pennies Frontend
 
-This is the frontend application for the Rothko on Pennies project, a digital, fully on-chain artwork that encodes a dithered and scaled-down derivative of Mark Rothko's "Composition (1959)" into the balances of hundreds of Ethereum wallet addresses.
+This is the frontend application for the Rothko on Pennies project, a digital, fully on-chain artwork that encodes a
+dithered and scaled-down derivative of Mark Rothko's "Composition (1959)" into the balances of hundreds of Ethereum
+wallet addresses.
 
 ## Overview
 
-The frontend provides an interactive interface for users to view the artwork, explore its history through snapshots, and interact with the smart contract (for collector).
+The frontend provides an interactive interface for users to view the artwork, explore its history through snapshots, and
+interact with the smart contract (for collector).
 
 ## Features
 
@@ -53,8 +56,8 @@ The frontend provides an interactive interface for users to view the artwork, ex
 
 This project is licensed under the MIT License.
 
-
 ## Disclaimer
 
-This README.md file was generated with the assistance of an AI language model. While efforts have been made to ensure accuracy and completeness, please review and verify the information before use. If you notice any inconsistencies or have suggestions for improvement, please feel free to contribute or raise an issue.
-
+This README.md file was generated with the assistance of an AI language model. While efforts have been made to ensure
+accuracy and completeness, please review and verify the information before use. If you notice any inconsistencies or
+have suggestions for improvement, please feel free to contribute or raise an issue.
