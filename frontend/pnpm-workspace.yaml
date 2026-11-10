@@ -1,0 +1,10 @@
+allowBuilds:
+  workerd: true
+  esbuild: true
+  bufferutil: false
+  utf-8-validate: false
+  unrs-resolver: false
+  keccak: false
+  secp256k1: false
+overrides:
+  ws: "^8.21.0"

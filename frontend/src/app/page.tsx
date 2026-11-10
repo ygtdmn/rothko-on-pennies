@@ -9,13 +9,11 @@ import { mainnet } from "wagmi/chains";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import merge from "lodash.merge";
-import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import { Hex } from "viem";
 import ropSvg from "../app/images/rop.svg";
 import { metadataRendererV2Abi } from "./metadata-renderer-v2.abi";
 import { mainnetTransport } from "../lib/mainnet-transport";
-const montserrat = Montserrat({ subsets: ["latin"] });
 
 const queryClient = new QueryClient();
 
@@ -133,7 +131,7 @@ const RothkoGallery = () => {
     try {
       const response = await fetch("/api/get-all-snapshots");
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = (await response.json()) as { error?: string };
         throw new Error(errorData.error || "Failed to fetch snapshots");
       }
       const data: SnapshotData = await response.json();
@@ -198,7 +196,7 @@ const RothkoGallery = () => {
   }
 
   return (
-    <div className={`min-h-screen bg-stone-950 text-gray-200 ${montserrat.className}`}>
+    <div className="min-h-screen bg-stone-950 text-gray-200 font-montserrat">
       <header className="bg-gradient-to-b from-red-800 via-orange-900 to-red-950 py-20">
         <div className="max-w-6xl mx-auto px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">

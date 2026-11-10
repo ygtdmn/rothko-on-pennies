@@ -21,6 +21,9 @@ body {
 }
 
 @layer utilities {
+  .font-montserrat {
+    font-family: "Montserrat Variable", sans-serif;
+  }
   .text-balance {
     text-wrap: balance;
   }

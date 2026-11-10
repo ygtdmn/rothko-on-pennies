@@ -17,7 +17,7 @@ interact with the smart contract (for collector).
 
 ## Tech Stack
 
-- Next.js
+- Next.js App Router, built with [vinext](https://github.com/cloudflare/vinext) (Vite) and served as a Cloudflare Worker
 - React
 - TypeScript
 - Wagmi (for Ethereum interactions)
@@ -30,27 +30,45 @@ interact with the smart contract (for collector).
 1. Clone the repository
 2. Install dependencies:
    ```
-   npm install
+   pnpm install
    ```
-3. Set up environment variables:
-   - Create a `.env.local` file in the root of the frontend folder
-   - Add the following variables:
-     ```
-     NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
-     NEXT_PUBLIC_CONTRACT_ADDRESS=your_contract_address
-     ```
+3. Environment variables: the public values (`NEXT_PUBLIC_CONTRACT_ADDRESS`, `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`) are
+   committed in `.env.production` and end up in the bundle. For local development, put overrides in `.env.local`. The
+   app needs no secrets.
 4. Run the development server:
    ```
-   npm run dev
+   pnpm dev
    ```
 5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+## Commands
+
+```
+pnpm dev        # vinext dev server on port 3000
+pnpm build      # build the Worker (output in .cloudflare/output)
+pnpm start      # run the built Worker locally in workerd (vite preview)
+pnpm lint       # ESLint
+pnpm typecheck  # Worker runtime types + tsc
+pnpm deploy     # build and deploy to Cloudflare (needs `npx cf auth login`)
+```
+
+## Deployment
+
+The site runs on Cloudflare Workers as the Worker `rothko-on-pennies`, at https://rothko-on-pennies.yigitq.workers.dev.
+`cloudflare.config.ts` declares it: no custom domains, workers.dev on, preview URLs off. A deploy applies these fields,
+so a toggle flipped in the dashboard comes back on the next deploy unless the config agrees.
+
+`/api/get-all-snapshots` reads the live view and every snapshot from the `ROPMetadataRendererV2` contract through a
+fallback list of public RPCs (`src/lib/mainnet-transport.ts`, batched into Multicall3) and caches the result for 60
+seconds: in the isolate's memory and in the Workers Cache API. The Cache API does nothing on workers.dev hostnames, so
+there only the per-isolate copy applies until the Worker gets a custom domain.
 
 ## Project Structure
 
 - `src/app/page.tsx`: Main component containing the Rothko Gallery
-- `src/pages/api/get-all-snapshots.ts`: API route for fetching snapshots
+- `src/app/api/get-all-snapshots/route.ts`: API route for fetching snapshots
 - `src/app/metadata-renderer-v2.abi.ts`: ABI for the smart contract
-- `public/`: Static assets
+- `cloudflare.config.ts`, `vite.config.ts`: Worker and vinext configuration
 
 ## License
 

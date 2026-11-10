@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# vinext / Cloudflare Workers
+.dev.vars*
+/dist/
+.vinext/
+.cloudflare/
+.wrangler/
