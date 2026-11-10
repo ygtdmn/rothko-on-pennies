@@ -1,6 +1,7 @@
 {
   "name": "rothko-on-pennies-frontend",
   "version": "0.1.0",
+  "packageManager": "pnpm@12.18.0",
   "private": true,
   "type": "module",
   "scripts": {
