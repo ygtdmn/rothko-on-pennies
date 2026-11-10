@@ -49,19 +49,21 @@ pnpm build      # build the Worker (output in .cloudflare/output)
 pnpm start      # run the built Worker locally in workerd (vite preview)
 pnpm lint       # ESLint
 pnpm typecheck  # Worker runtime types + tsc
-pnpm deploy     # build and deploy to Cloudflare (needs `npx cf auth login`)
+pnpm run deploy # build and deploy to Cloudflare (needs `npx cf auth login`)
 ```
 
 ## Deployment
 
-The site runs on Cloudflare Workers as the Worker `rothko-on-pennies`, at https://rothko-on-pennies.yigitq.workers.dev.
-`cloudflare.config.ts` declares it: no custom domains, workers.dev on, preview URLs off. A deploy applies these fields,
-so a toggle flipped in the dashboard comes back on the next deploy unless the config agrees.
+The site runs on Cloudflare Workers as the Worker `rothko-on-pennies`, at https://rop.yigitduman.com.
+`cloudflare.config.ts` declares it: custom domain rop.yigitduman.com, workers.dev off, preview URLs off. A deploy applies
+these fields, so a toggle flipped in the dashboard comes back on the next deploy unless the config agrees.
+
+Workers Builds deploys every push to master: root directory `frontend`, no build command, deploy command
+`pnpm run deploy`, preview builds off, `NODE_VERSION` 24. `pnpm run deploy` also works by hand.
 
 `/api/get-all-snapshots` reads the live view and every snapshot from the `ROPMetadataRendererV2` contract through a
 fallback list of public RPCs (`src/lib/mainnet-transport.ts`, batched into Multicall3) and caches the result for 60
-seconds: in the isolate's memory and in the Workers Cache API. The Cache API does nothing on workers.dev hostnames, so
-there only the per-isolate copy applies until the Worker gets a custom domain.
+seconds: in the isolate's memory and in the Workers Cache API.
 
 ## Project Structure
 
