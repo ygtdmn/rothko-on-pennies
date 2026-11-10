@@ -4,10 +4,10 @@ export default defineConfig({
   worker: defineWorker({
     name: "rothko-on-pennies",
     // workers.dev only: no custom domain is attached by a deploy.
-    domains: [],
+    domains: ["rop.yigitduman.com"],
     // Deploys enforce these, so a toggle flipped in the dashboard comes back
     // on the next push unless it is set here.
-    workersDev: true,
+    workersDev: false,
     previewUrls: false,
     entrypoint: "vinext/server/fetch-handler",
     compatibilityDate: "2026-11-08",
